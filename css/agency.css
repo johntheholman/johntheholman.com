@@ -1,6 +1,6 @@
 /*!
  * Start Bootstrap - Agency v5.0.2 (https://startbootstrap.com/template-overviews/agency)
- * Copyright 2013-2018 Start Bootstrap
+ * Copyright 2013-2020 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-agency/blob/master/LICENSE)
  */
 
@@ -63,6 +63,7 @@ section h3.section-subheading {
 .btn {
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   font-weight: 700;
+  color: black;
 }
 
 .btn-xl {
@@ -73,7 +74,6 @@ section h3.section-subheading {
 .btn-primary {
   background-color: #fed136;
   border-color: #fed136;
-  color: #000;
 }
 
 .btn-primary:active, .btn-primary:focus, .btn-primary:hover {
@@ -83,18 +83,7 @@ section h3.section-subheading {
 }
 
 .btn-primary:active, .btn-primary:focus {
-  -webkit-box-shadow: 0 0 0 0.2rem rgba(254, 209, 55, 0.5) !important;
   box-shadow: 0 0 0 0.2rem rgba(254, 209, 55, 0.5) !important;
-}
-
-.modal-body .col-lg-12 .list-inline .list-inline-item .btn-primary {
-  margin-bottom: 5%;
-}
-
-@media (max-width: 768px) {
-  .modal-body .row .col-md-4:nth-child(-n+2) .list-inline {
-    margin-bottom: 0%;
-  }
 }
 
 ::-moz-selection {
@@ -128,7 +117,7 @@ img::-moz-selection {
   right: 0;
   padding: 13px;
   text-transform: uppercase;
-  color: black;
+  color: #000;
   border: 0;
   background-color: #fed136;
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -160,14 +149,12 @@ img::-moz-selection {
   #mainNav {
     padding-top: 25px;
     padding-bottom: 25px;
-    -webkit-transition: padding-top 0.3s, padding-bottom 0.3s;
     transition: padding-top 0.3s, padding-bottom 0.3s;
     border: none;
     background-color: transparent;
   }
   #mainNav .navbar-brand {
     font-size: 1.75em;
-    -webkit-transition: all 0.3s;
     transition: all 0.3s;
   }
   #mainNav .navbar-nav .nav-item .nav-link {
@@ -187,7 +174,7 @@ img::-moz-selection {
 header.masthead {
   text-align: center;
   color: white;
-  background-image: url("../img/header-bg.jpg");
+  background-image: url("../img/header-bg.webp");
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
@@ -236,17 +223,9 @@ header.masthead .intro-text .intro-heading {
   }
 }
 
-.fa-inverse {
-  color: #000;
-}
-
 .service-heading {
   margin: 15px 0;
   text-transform: none;
-}
-
-.col-md-4 {
-  margin-bottom: 2%;
 }
 
 #portfolio .portfolio-item {
@@ -266,7 +245,6 @@ header.masthead .intro-text .intro-heading {
   position: absolute;
   width: 100%;
   height: 100%;
-  -webkit-transition: all ease 0.5s;
   transition: all ease 0.5s;
   opacity: 0;
   background: rgba(254, 209, 54, 0.9);
@@ -340,10 +318,6 @@ header.masthead .intro-text .intro-heading {
   text-align: center;
 }
 
-.description-text {
-  text-align: left;
-}
-
 .portfolio-modal .modal-content h2 {
   font-size: 3em;
   margin-bottom: 15px;
@@ -394,7 +368,6 @@ header.masthead .intro-text .intro-heading {
   height: 75px;
   margin-left: 35px;
   /* IE 9 */
-  -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
   background-color: #212529;
 }
@@ -405,29 +378,8 @@ header.masthead .intro-text .intro-heading {
   width: 1px;
   height: 75px;
   /* IE 9 */
-  -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
   background-color: #212529;
-}
-
-@media (max-width: 767px) {
-  .portfolio-modal .close-modal {
-    width: 50px;
-    height: 50px;
-  }
-
-  .portfolio-modal .close-modal .lr {
-    height: 50px;
-    margin-left: 25px;
-  }
-
-  .portfolio-modal .close-modal .rl {
-    height: 50px;
-  }
-
-  .portfolio-modal .close-modal .lr .rl {
-    height: 50px;
-  }
 }
 
 .timeline {
@@ -639,7 +591,7 @@ header.masthead .intro-text .intro-heading {
 
 section#contact {
   background-color: #212529;
-  background-image: url("../img/map-image.png");
+  background-image: url("../img/map-image.webp");
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -662,12 +614,15 @@ section#contact .form-group input.form-control {
 }
 
 section#contact .form-group textarea.form-control {
-  height: 248px;
+  height: 312px;
+}
+
+section#contact .form-group label {
+  color: #fff;
 }
 
 section#contact .form-control:focus {
   border-color: #fed136;
-  -webkit-box-shadow: none;
   box-shadow: none;
 }
 
@@ -725,7 +680,6 @@ ul.social-buttons li a {
   display: block;
   width: 50px;
   height: 50px;
-  -webkit-transition: all 0.3s;
   transition: all 0.3s;
   color: white;
   border-radius: 100%;

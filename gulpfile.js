@@ -1,15 +1,15 @@
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var header = require('gulp-header');
-var cleanCSS = require('gulp-clean-css');
-var rename = require("gulp-rename");
-var uglify = require('gulp-uglify');
-var autoprefixer = require('gulp-autoprefixer');
-var pkg = require('./package.json');
-var browserSync = require('browser-sync').create();
+const { src, dest, watch, series, parallel } = require('gulp');
+const sass = require('gulp-sass');
+const header = require('gulp-header');
+const cleanCSS = require('gulp-clean-css');
+const rename = require('gulp-rename');
+const uglify = require('gulp-uglify');
+const autoprefixer = require('gulp-autoprefixer');
+const pkg = require('./package.json');
+const sync = require('browser-sync').create();
 
 // Set the banner content
-var banner = ['/*!\n',
+let banner = ['/*!\n',
   ' * Start Bootstrap - <%= pkg.title %> v<%= pkg.version %> (<%= pkg.homepage %>)\n',
   ' * Copyright 2013-' + (new Date()).getFullYear(), ' <%= pkg.author %>\n',
   ' * Licensed under <%= pkg.license %> (https://github.com/BlackrockDigital/<%= pkg.name %>/blob/master/LICENSE)\n',
@@ -18,105 +18,108 @@ var banner = ['/*!\n',
 ].join('');
 
 // Copy third party libraries from /node_modules into /vendor
-gulp.task('vendor', function() {
-
-  // Bootstrap
-  gulp.src([
-      './node_modules/bootstrap/dist/**/*',
-      '!./node_modules/bootstrap/dist/css/bootstrap-grid*',
-      '!./node_modules/bootstrap/dist/css/bootstrap-reboot*'
+function fromNodeToVendor(cb){
+    //Bootstrap
+    src([
+        './node_modules/bootstrap/dist/**/*',
+        '!./node_modules/bootstrap/dist/css/bootstrap-grid*',
+        '!./node_modules/bootstrap/dist/css/bootstrap-reboot*'
     ])
-    .pipe(gulp.dest('./vendor/bootstrap'))
+        .pipe(dest('./vendor/bootstrap'));
 
-  // Font Awesome
-  gulp.src([
-      './node_modules/@fortawesome/**/*',
+    //Font Awesome
+    src([
+        '.node_modules/@fortawesome/**/*',
     ])
-    .pipe(gulp.dest('./vendor'))
+        .pipe(dest('./vendor'));
 
-  // jQuery
-  gulp.src([
-      './node_modules/jquery/dist/*',
-      '!./node_modules/jquery/dist/core.js'
+    //jQuery
+    src([
+        './node_modules/jquery/dist/*',
+        '!.node_modules/jquery/dist/core.js'
     ])
-    .pipe(gulp.dest('./vendor/jquery'))
+        .pipe(dest('./vendor/jquery'));
 
-  // jQuery Easing
-  gulp.src([
-      './node_modules/jquery.easing/*.js'
+    //jQuery Easing
+    src([
+        './node_modules/jquery.easing/*.js'
     ])
-    .pipe(gulp.dest('./vendor/jquery-easing'))
-
-});
+        .pipe(dest('./vendor/jquery-easing'));
+    cb();
+};
 
 // Compile SCSS
-gulp.task('css:compile', function() {
-  return gulp.src('./scss/**/*.scss')
-    .pipe(sass.sync({
-      outputStyle: 'expanded'
-    }).on('error', sass.logError))
-    .pipe(autoprefixer({
-      browsers: ['last 2 versions'],
-      cascade: false
-    }))
-    .pipe(header(banner, {
-      pkg: pkg
-    }))
-    .pipe(gulp.dest('./css'))
-});
+function compileSCSS(){
+    return src('./scss/**/*.scss')
+        .pipe(sass.sync({
+            outputStyle: 'expanded'
+        }).on('error', sass.logError))
+        .pipe(autoprefixer({
+            cascade: false
+        }))
+        .pipe(header(banner, {
+            pkg: pkg
+        }))
+        .pipe(dest('./css'));
+}
 
 // Minify CSS
-gulp.task('css:minify', ['css:compile'], function() {
-  return gulp.src([
-      './css/*.css',
-      '!./css/*.min.css'
+function minifyCSS(){
+    return src([
+        './css/*.css',
+        '!./css/*.min.css'
     ])
-    .pipe(cleanCSS())
-    .pipe(rename({
-      suffix: '.min'
-    }))
-    .pipe(gulp.dest('./css'))
-    .pipe(browserSync.stream());
-});
+        .pipe(cleanCSS())
+        .pipe(rename({
+            suffix: '.min'
+        }))
+        .pipe(dest('./css'))
+        .pipe(sync.stream());
+};
 
 // CSS
-gulp.task('css', ['css:compile', 'css:minify']);
+function css(cb){
+    compileSCSS();
+    minifyCSS();
+    cb();
+}
 
 // Minify JavaScript
-gulp.task('js:minify', function() {
-  return gulp.src([
-      './js/*.js',
-      '!./js/*.min.js'
+function minifyJavaScript(){
+    return src([
+        './js/*.js',
+        '!./js/*.min.js'
     ])
-    .pipe(uglify())
-    .pipe(rename({
-      suffix: '.min'
-    }))
-    .pipe(header(banner, {
-      pkg: pkg
-    }))
-    .pipe(gulp.dest('./js'))
-    .pipe(browserSync.stream());
-});
+        .pipe(uglify())
+        .pipe(rename({
+            suffix: '.min'
+        }))
+        .pipe(header(banner, {
+            pkg: pkg
+        }))
+        .pipe(dest('./js'))
+        .pipe(sync.stream());
+};
 
 // JS
-gulp.task('js', ['js:minify']);
-
-// Default task
-gulp.task('default', ['css', 'js', 'vendor']);
+function javascript(cb){
+    minifyJavaScript();
+    cb();
+}
 
 // Configure the browserSync task
-gulp.task('browserSync', function() {
-  browserSync.init({
-    server: {
-      baseDir: "./"
-    }
-  });
-});
+function browserSync(){
+    sync.init({
+        server: {
+            baseDir: './'
+        }
+    });
 
-// Dev task
-gulp.task('dev', ['css', 'js', 'browserSync'], function() {
-  gulp.watch('./scss/*.scss', ['css']);
-  gulp.watch('./js/*.js', ['js']);
-  gulp.watch('./*.html', browserSync.reload);
-});
+    watch('./scss/*.scss', css);
+    watch('./js/*.js', javascript);
+    watch('./*html').on('change', sync.reload);
+};
+
+// Default task
+exports.default = series(fromNodeToVendor, parallel(css, javascript));
+

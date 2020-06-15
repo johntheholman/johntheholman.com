@@ -27,8 +27,9 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "5.3.1",
-        "bootstrap": "^4.3.1",
-        "jquery": "^3.5.1",
+        "bootstrap": "4.5.0",
+        "gulp-cli": "^2.3.0",
+        "jquery": "3.5.1",
         "jquery.easing": "^1.4.1"
     },
     "devDependencies": {
@@ -40,5 +41,8 @@
         "gulp-rename": "1.4.0",
         "gulp-sass": "4.0.1",
         "gulp-uglify": "3.0.1"
-    }
+    },
+    "browserslist": [
+        "defaults"
+    ]
 }

@@ -54,7 +54,7 @@ try {
                      'Message: '.$formData['message'].'<br>'.
                      '<br>'.
                      'This message whas sent from the contact form on johntheholman.com';
-    $mail->AltBody = 'Name: '.$formData['name']. ' | '
+    $mail->AltBody = 'Name: '.$formData['name']. ' | '.
                      'Email: '.$formData['email'].' | '.
                      'Phone: '.$formData['phone'].' | '.
                      'Message: '.$formData['message'].' | '.

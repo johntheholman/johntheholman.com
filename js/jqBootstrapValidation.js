@@ -289,9 +289,7 @@
             var foundValidator = false;
             message =
               (
-                message ?
-                message :
-                "'" + el + "' validation failed <!-- Add attribute 'data-validation-" + el.toLowerCase() + "-message' to input to change this message -->"
+                message ? message : "'" + el + "' validation failed <!-- Add attribute 'data-validation-" + el.toLowerCase() + "-message' to input to change this message -->"
               );
 
             $.each(
@@ -359,36 +357,28 @@
           $helpBlock.data(
             "original-contents",
             (
-              $helpBlock.data("original-contents") ?
-              $helpBlock.data("original-contents") :
-              $helpBlock.html()
+              $helpBlock.data("original-contents") ? $helpBlock.data("original-contents") : $helpBlock.html()
             )
           );
 
           $helpBlock.data(
             "original-role",
             (
-              $helpBlock.data("original-role") ?
-              $helpBlock.data("original-role") :
-              $helpBlock.attr("role")
+              $helpBlock.data("original-role") ? $helpBlock.data("original-role") : $helpBlock.attr("role")
             )
           );
 
           $controlGroup.data(
             "original-classes",
             (
-              $controlGroup.data("original-clases") ?
-              $controlGroup.data("original-classes") :
-              $controlGroup.attr("class")
+              $controlGroup.data("original-clases") ? $controlGroup.data("original-classes") : $controlGroup.attr("class")
             )
           );
 
           $this.data(
             "original-aria-invalid",
             (
-              $this.data("original-aria-invalid") ?
-              $this.data("original-aria-invalid") :
-              $this.attr("aria-invalid")
+              $this.data("original-aria-invalid") ? $this.data("original-aria-invalid") : $this.attr("aria-invalid")
             )
           );
 

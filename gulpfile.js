@@ -1,4 +1,5 @@
 const { src, dest, watch, series, parallel } = require('gulp');
+const eslint = require('gulp-eslint');
 const sass = require('gulp-sass');
 const header = require('gulp-header');
 const cleanCSS = require('gulp-clean-css');
@@ -61,7 +62,7 @@ function compileSCSS(){
             pkg: pkg
         }))
         .pipe(dest('./css'));
-}
+};
 
 // Minify CSS
 function minifyCSS(){
@@ -82,7 +83,7 @@ function css(cb){
     compileSCSS();
     minifyCSS();
     cb();
-}
+};
 
 // Minify JavaScript
 function minifyJavaScript(){
@@ -105,7 +106,28 @@ function minifyJavaScript(){
 function javascript(cb){
     minifyJavaScript();
     cb();
-}
+};
+
+// Linting
+function linter(cb){
+    return src([
+        './js/*.js',
+        '!./js/*.min.js',
+        '!node_modules/**'
+    ])
+        .pipe(eslint({
+            exteds: 'eslint:recommended',
+            rules: {
+                indent: ['error', 2],
+                'no-trailing-spaces': 'error'
+            }
+        }))
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError())
+        .on('end', function(){
+            cb();
+        });
+};
 
 // Configure the browserSync task
 function browserSync(){
@@ -120,6 +142,9 @@ function browserSync(){
     watch('./*html').on('change', sync.reload);
 };
 
+// Exports
+exports.lint = linter;
+exports.dev = browserSync;
 // Default task
-exports.default = series(fromNodeToVendor, parallel(css, javascript));
+exports.default = series(fromNodeToVendor, linter, parallel(css, javascript));
 
